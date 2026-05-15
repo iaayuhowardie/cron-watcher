@@ -1,32 +1,42 @@
-from cron_watcher.notifiers.email_notifier import EmailNotifier
-from cron_watcher.notifiers.slack_notifier import SlackNotifier
-from cron_watcher.notifiers.webhook_notifier import WebhookNotifier
-
-__all__ = ["EmailNotifier", "SlackNotifier", "WebhookNotifier"]
+from typing import Any, Dict
 
 
-def get_notifier(notifier_type: str, **kwargs):
-    """Factory function to get a notifier instance by type name.
+def get_notifier(notifier_type: str, config: Dict[str, Any]):
+    """Factory that returns an instantiated notifier for the given type."""
+    if notifier_type == "email":
+        from cron_watcher.notifiers.email_notifier import EmailConfig, EmailNotifier
+        return EmailNotifier(EmailConfig(**config))
 
-    Args:
-        notifier_type: The type of notifier to create. One of 'email',
-            'slack', or 'webhook'.
-        **kwargs: Keyword arguments passed to the notifier's constructor.
+    if notifier_type == "slack":
+        from cron_watcher.notifiers.slack_notifier import SlackConfig, SlackNotifier
+        return SlackNotifier(SlackConfig(**config))
 
-    Returns:
-        An instance of the requested notifier.
+    if notifier_type == "webhook":
+        from cron_watcher.notifiers.webhook_notifier import WebhookConfig, WebhookNotifier
+        return WebhookNotifier(WebhookConfig(**config))
 
-    Raises:
-        ValueError: If the notifier_type is not recognized.
-    """
-    notifiers = {
-        "email": EmailNotifier,
-        "slack": SlackNotifier,
-        "webhook": WebhookNotifier,
-    }
-    if notifier_type not in notifiers:
-        raise ValueError(
-            f"Unknown notifier type '{notifier_type}'. "
-            f"Valid options are: {', '.join(notifiers.keys())}"
-        )
-    return notifiers[notifier_type](**kwargs)
+    if notifier_type == "pagerduty":
+        from cron_watcher.notifiers.pagerduty_notifier import PagerDutyConfig, PagerDutyNotifier
+        return PagerDutyNotifier(PagerDutyConfig(**config))
+
+    if notifier_type == "opsgenie":
+        from cron_watcher.notifiers.opsgenie_notifier import OpsGenieConfig, OpsGenieNotifier
+        return OpsGenieNotifier(OpsGenieConfig(**config))
+
+    if notifier_type == "log":
+        from cron_watcher.notifiers.log_notifier import LogConfig, LogNotifier
+        return LogNotifier(LogConfig(**config))
+
+    if notifier_type == "teams":
+        from cron_watcher.notifiers.teams_notifier import TeamsConfig, TeamsNotifier
+        return TeamsNotifier(TeamsConfig(**config))
+
+    if notifier_type == "discord":
+        from cron_watcher.notifiers.discord_notifier import DiscordConfig, DiscordNotifier
+        return DiscordNotifier(DiscordConfig(**config))
+
+    if notifier_type == "telegram":
+        from cron_watcher.notifiers.telegram_notifier import TelegramConfig, TelegramNotifier
+        return TelegramNotifier(TelegramConfig(**config))
+
+    raise ValueError(f"Unknown notifier type: {notifier_type!r}")
