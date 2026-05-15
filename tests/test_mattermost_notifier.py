@@ -62,6 +62,13 @@ def test_send_returns_false_on_http_error(notifier: MattermostNotifier) -> None:
     assert result is False
 
 
+def test_send_posts_to_correct_webhook_url(notifier: MattermostNotifier) -> None:
+    with patch("requests.post", return_value=_mock_response(200)) as mock_post:
+        notifier.send("Test", "Checking URL")
+    args, _ = mock_post.call_args
+    assert args[0] == "https://mattermost.example.com/hooks/abc123"
+
+
 def test_send_without_channel() -> None:
     config = MattermostConfig(webhook_url="https://mattermost.example.com/hooks/xyz")
     notifier = MattermostNotifier(config)
