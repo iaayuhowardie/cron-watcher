@@ -2,7 +2,21 @@ from typing import Any, Dict
 
 
 def get_notifier(notifier_type: str, config: Dict[str, Any]):
-    """Factory function that returns an instantiated notifier for the given type."""
+    """Instantiate and return a notifier by type name.
+
+    Parameters
+    ----------
+    notifier_type:
+        One of the supported notifier identifiers (e.g. ``"email"``,
+        ``"slack"``, ``"webhook"``, …).
+    config:
+        Dictionary of configuration values forwarded to the notifier's
+        config dataclass.
+
+    Returns the notifier instance or raises ``ValueError`` for unknown types.
+    """
+    notifier_type = notifier_type.lower()
+
     if notifier_type == "email":
         from cron_watcher.notifiers.email_notifier import EmailConfig, EmailNotifier
         return EmailNotifier(EmailConfig(**config))
@@ -54,5 +68,9 @@ def get_notifier(notifier_type: str, config: Dict[str, Any]):
     if notifier_type == "mattermost":
         from cron_watcher.notifiers.mattermost_notifier import MattermostConfig, MattermostNotifier
         return MattermostNotifier(MattermostConfig(**config))
+
+    if notifier_type == "gotify":
+        from cron_watcher.notifiers.gotify_notifier import GotifyConfig, GotifyNotifier
+        return GotifyNotifier(GotifyConfig(**config))
 
     raise ValueError(f"Unknown notifier type: {notifier_type!r}")
