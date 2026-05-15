@@ -81,9 +81,8 @@ class TestScheduler:
 
     def test_check_missed_excludes_successful_jobs(self, scheduler):
         now = datetime(2024, 6, 1, 12, 5, 30, tzinfo=timezone.utc)
-        scheduler.record_success(
-            "heartbeat",
-            at=datetime(2024, 6, 1, 12, 5, 0, tzinfo=timezone.utc),
-        )
+        # Record a success for heartbeat at the expected last-run time
+        scheduler.record_success("heartbeat", at=datetime(2024, 6, 1, 12, 5, 0, tzinfo=timezone.utc))
         missed = scheduler.check_missed(now)
         assert "heartbeat" not in missed
+        assert "hourly-report" in missed
