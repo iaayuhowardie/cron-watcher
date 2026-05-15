@@ -7,9 +7,20 @@ import pytest
 from cron_watcher.cli import build_parser, main
 
 
+CONFIG_CONTENT = "jobs:\n  - name: backup\n    schedule: '0 * * * *'\nalert:\n  method: log\n"
+
+
 @pytest.fixture
 def parser():
     return build_parser()
+
+
+@pytest.fixture
+def config_file(tmp_path):
+    """Write a minimal valid config file and return its path."""
+    path = tmp_path / "cron_watcher.yaml"
+    path.write_text(CONFIG_CONTENT)
+    return path
 
 
 def test_parser_defaults(parser):
@@ -46,11 +57,7 @@ def test_main_missing_config_returns_1():
     assert result == 1
 
 
-def test_main_report_success(tmp_path):
-    config_file = tmp_path / "cron_watcher.yaml"
-    config_file.write_text(
-        "jobs:\n  - name: backup\n    schedule: '0 * * * *'\nalert:\n  method: log\n"
-    )
+def test_main_report_success(config_file):
     with patch("cron_watcher.cli.Watcher") as MockWatcher:
         instance = MagicMock()
         MockWatcher.return_value = instance
@@ -59,11 +66,7 @@ def test_main_report_success(tmp_path):
     instance.report_success.assert_called_once_with("backup")
 
 
-def test_main_report_failure_alert_sent(tmp_path):
-    config_file = tmp_path / "cron_watcher.yaml"
-    config_file.write_text(
-        "jobs:\n  - name: backup\n    schedule: '0 * * * *'\nalert:\n  method: log\n"
-    )
+def test_main_report_failure_alert_sent(config_file):
     with patch("cron_watcher.cli.Watcher") as MockWatcher:
         instance = MagicMock()
         instance.report_failure.return_value = True
@@ -73,11 +76,7 @@ def test_main_report_failure_alert_sent(tmp_path):
     instance.report_failure.assert_called_once_with("backup", 2, "")
 
 
-def test_main_report_failure_alert_not_sent_returns_1(tmp_path):
-    config_file = tmp_path / "cron_watcher.yaml"
-    config_file.write_text(
-        "jobs:\n  - name: backup\n    schedule: '0 * * * *'\nalert:\n  method: log\n"
-    )
+def test_main_report_failure_alert_not_sent_returns_1(config_file):
     with patch("cron_watcher.cli.Watcher") as MockWatcher:
         instance = MagicMock()
         instance.report_failure.return_value = False
