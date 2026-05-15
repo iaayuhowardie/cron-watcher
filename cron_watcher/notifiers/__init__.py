@@ -1,24 +1,8 @@
-"""Notifier registry for cron-watcher."""
-
 from typing import Any, Dict
 
 
 def get_notifier(notifier_type: str, config: Dict[str, Any]):
-    """Instantiate and return a notifier by type name.
-
-    Args:
-        notifier_type: One of email, slack, webhook, pagerduty, opsgenie,
-                       log, teams, discord, telegram, sms, victorops, sns.
-        config: Dictionary of configuration values for the notifier.
-
-    Returns:
-        A notifier instance with a ``send(subject, message) -> bool`` method.
-
-    Raises:
-        ValueError: If *notifier_type* is not recognised.
-    """
-    notifier_type = notifier_type.lower()
-
+    """Factory function that returns an instantiated notifier for the given type."""
     if notifier_type == "email":
         from cron_watcher.notifiers.email_notifier import EmailConfig, EmailNotifier
         return EmailNotifier(EmailConfig(**config))
@@ -66,5 +50,9 @@ def get_notifier(notifier_type: str, config: Dict[str, Any]):
     if notifier_type == "sns":
         from cron_watcher.notifiers.sns_notifier import SNSConfig, SNSNotifier
         return SNSNotifier(SNSConfig(**config))
+
+    if notifier_type == "mattermost":
+        from cron_watcher.notifiers.mattermost_notifier import MattermostConfig, MattermostNotifier
+        return MattermostNotifier(MattermostConfig(**config))
 
     raise ValueError(f"Unknown notifier type: {notifier_type!r}")
