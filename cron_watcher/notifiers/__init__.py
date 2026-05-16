@@ -99,4 +99,14 @@ def get_notifier(config: Dict[str, Any]) -> Optional[Any]:
         cfg = ZulipConfig(**{k: v for k, v in config.items() if k != "type"})
         return ZulipNotifier(cfg)
 
+    if notifier_type == "matrix":
+        from cron_watcher.notifiers.matrix_notifier import MatrixConfig, MatrixNotifier
+        cfg = MatrixConfig(**{k: v for k, v in config.items() if k != "type"})
+        return MatrixNotifier(cfg)
+
+    if notifier_type == "datadog":
+        from cron_watcher.notifiers.datadog_notifier import DatadogConfig, DatadogNotifier
+        cfg = DatadogConfig(**{k: v for k, v in config.items() if k != "type"})
+        return DatadogNotifier(cfg)
+
     return None
