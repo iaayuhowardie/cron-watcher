@@ -81,3 +81,12 @@ def test_custom_log_level(caplog: pytest.LogCaptureFixture) -> None:
         notifier.send("Debug subject", "Debug body")
 
     assert any("Debug subject" in r.message for r in caplog.records)
+
+
+def test_send_emits_log_record_at_correct_level(notifier: LogNotifier, caplog: pytest.LogCaptureFixture) -> None:
+    """Verify that the emitted log record uses the WARNING level by default."""
+    with caplog.at_level(logging.WARNING, logger="cron_watcher.alerts"):
+        notifier.send("Level check", "Should be WARNING")
+
+    assert len(caplog.records) == 1
+    assert caplog.records[0].levelno == logging.WARNING
