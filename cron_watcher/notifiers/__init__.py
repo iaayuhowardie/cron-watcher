@@ -1,19 +1,23 @@
-from typing import Any, Dict
+"""Notifier registry for cron-watcher."""
+from __future__ import annotations
+
+from typing import Any, Dict, Optional
 
 
-def get_notifier(notifier_type: str, config: Dict[str, Any]):
-    """Instantiate and return a notifier by type name.
+def get_notifier(notifier_type: str, config: Dict[str, Any]) -> Optional[Any]:
+    """Instantiate and return the appropriate notifier for *notifier_type*.
 
     Parameters
     ----------
     notifier_type:
-        One of the supported notifier identifiers (e.g. ``"email"``,
-        ``"slack"``, ``"webhook"``, …).
+        Identifier string, e.g. ``"email"``, ``"slack"``, ``"ntfy"``.
     config:
-        Dictionary of configuration values forwarded to the notifier's
-        config dataclass.
+        Raw configuration dictionary for the notifier.
 
-    Returns the notifier instance or raises ``ValueError`` for unknown types.
+    Returns
+    -------
+    A notifier instance with a ``send(subject, body) -> bool`` method, or
+    ``None`` when *notifier_type* is unknown.
     """
     notifier_type = notifier_type.lower()
 
@@ -73,4 +77,12 @@ def get_notifier(notifier_type: str, config: Dict[str, Any]):
         from cron_watcher.notifiers.gotify_notifier import GotifyConfig, GotifyNotifier
         return GotifyNotifier(GotifyConfig(**config))
 
-    raise ValueError(f"Unknown notifier type: {notifier_type!r}")
+    if notifier_type == "pushover":
+        from cron_watcher.notifiers.pushover_notifier import PushoverConfig, PushoverNotifier
+        return PushoverNotifier(PushoverConfig(**config))
+
+    if notifier_type == "ntfy":
+        from cron_watcher.notifiers.ntfy_notifier import NtfyConfig, NtfyNotifier
+        return NtfyNotifier(NtfyConfig(**config))
+
+    return None
