@@ -1,128 +1,119 @@
 from typing import Any, Dict, Optional
 
 
-def get_notifier(notifier_type: str, config: Dict[str, Any]) -> Optional[Any]:
-    """Return an instantiated notifier for the given type, or None if unknown."""
+def get_notifier(notifier_type: str, config: Dict[str, Any]):
     key = notifier_type.lower()
 
     if key == "email":
-        from cron_watcher.notifiers.email_notifier import EmailConfig, EmailNotifier
-        cfg = EmailConfig(**config)
-        return EmailNotifier(cfg)
+        from .email_notifier import EmailConfig, EmailNotifier
+        return EmailNotifier(EmailConfig(**config))
 
     if key == "slack":
-        from cron_watcher.notifiers.slack_notifier import SlackConfig, SlackNotifier
-        cfg = SlackConfig(**config)
-        return SlackNotifier(cfg)
+        from .slack_notifier import SlackConfig, SlackNotifier
+        return SlackNotifier(SlackConfig(**config))
 
     if key == "webhook":
-        from cron_watcher.notifiers.webhook_notifier import WebhookConfig, WebhookNotifier
-        cfg = WebhookConfig(**config)
-        return WebhookNotifier(cfg)
+        from .webhook_notifier import WebhookConfig, WebhookNotifier
+        return WebhookNotifier(WebhookConfig(**config))
 
     if key == "pagerduty":
-        from cron_watcher.notifiers.pagerduty_notifier import PagerDutyConfig, PagerDutyNotifier
-        cfg = PagerDutyConfig(**config)
-        return PagerDutyNotifier(cfg)
+        from .pagerduty_notifier import PagerDutyConfig, PagerDutyNotifier
+        return PagerDutyNotifier(PagerDutyConfig(**config))
 
     if key == "opsgenie":
-        from cron_watcher.notifiers.opsgenie_notifier import OpsGenieConfig, OpsGenieNotifier
-        cfg = OpsGenieConfig(**config)
-        return OpsGenieNotifier(cfg)
+        from .opsgenie_notifier import OpsGenieConfig, OpsGenieNotifier
+        return OpsGenieNotifier(OpsGenieConfig(**config))
 
     if key == "log":
-        from cron_watcher.notifiers.log_notifier import LogConfig, LogNotifier
-        cfg = LogConfig(**config)
-        return LogNotifier(cfg)
+        from .log_notifier import LogConfig, LogNotifier
+        return LogNotifier(LogConfig(**config))
 
     if key == "teams":
-        from cron_watcher.notifiers.teams_notifier import TeamsConfig, TeamsNotifier
-        cfg = TeamsConfig(**config)
-        return TeamsNotifier(cfg)
+        from .teams_notifier import TeamsConfig, TeamsNotifier
+        return TeamsNotifier(TeamsConfig(**config))
 
     if key == "discord":
-        from cron_watcher.notifiers.discord_notifier import DiscordConfig, DiscordNotifier
-        cfg = DiscordConfig(**config)
-        return DiscordNotifier(cfg)
+        from .discord_notifier import DiscordConfig, DiscordNotifier
+        return DiscordNotifier(DiscordConfig(**config))
 
     if key == "telegram":
-        from cron_watcher.notifiers.telegram_notifier import TelegramConfig, TelegramNotifier
-        cfg = TelegramConfig(**config)
-        return TelegramNotifier(cfg)
+        from .telegram_notifier import TelegramConfig, TelegramNotifier
+        return TelegramNotifier(TelegramConfig(**config))
 
     if key == "sms":
-        from cron_watcher.notifiers.sms_notifier import SMSConfig, SMSNotifier
-        cfg = SMSConfig(**config)
-        return SMSNotifier(cfg)
+        from .sms_notifier import SMSConfig, SMSNotifier
+        return SMSNotifier(SMSConfig(**config))
 
     if key == "victorops":
-        from cron_watcher.notifiers.victorops_notifier import VictorOpsConfig, VictorOpsNotifier
-        cfg = VictorOpsConfig(**config)
-        return VictorOpsNotifier(cfg)
+        from .victorops_notifier import VictorOpsConfig, VictorOpsNotifier
+        return VictorOpsNotifier(VictorOpsConfig(**config))
 
     if key == "sns":
-        from cron_watcher.notifiers.sns_notifier import SNSConfig, SNSNotifier
-        cfg = SNSConfig(**config)
-        return SNSNotifier(cfg)
+        from .sns_notifier import SNSConfig, SNSNotifier
+        return SNSNotifier(SNSConfig(**config))
 
     if key == "mattermost":
-        from cron_watcher.notifiers.mattermost_notifier import MattermostConfig, MattermostNotifier
-        cfg = MattermostConfig(**config)
-        return MattermostNotifier(cfg)
+        from .mattermost_notifier import MattermostConfig, MattermostNotifier
+        return MattermostNotifier(MattermostConfig(**config))
 
     if key == "gotify":
-        from cron_watcher.notifiers.gotify_notifier import GotifyConfig, GotifyNotifier
-        cfg = GotifyConfig(**config)
-        return GotifyNotifier(cfg)
+        from .gotify_notifier import GotifyConfig, GotifyNotifier
+        return GotifyNotifier(GotifyConfig(**config))
 
     if key == "pushover":
-        from cron_watcher.notifiers.pushover_notifier import PushoverConfig, PushoverNotifier
-        cfg = PushoverConfig(**config)
-        return PushoverNotifier(cfg)
+        from .pushover_notifier import PushoverConfig, PushoverNotifier
+        return PushoverNotifier(PushoverConfig(**config))
 
     if key == "ntfy":
-        from cron_watcher.notifiers.ntfy_notifier import NtfyConfig, NtfyNotifier
-        cfg = NtfyConfig(**config)
-        return NtfyNotifier(cfg)
+        from .ntfy_notifier import NtfyConfig, NtfyNotifier
+        return NtfyNotifier(NtfyConfig(**config))
 
     if key == "pushbullet":
-        from cron_watcher.notifiers.pushbullet_notifier import PushbulletConfig, PushbulletNotifier
-        cfg = PushbulletConfig(**config)
-        return PushbulletNotifier(cfg)
+        from .pushbullet_notifier import PushbulletConfig, PushbulletNotifier
+        return PushbulletNotifier(PushbulletConfig(**config))
 
     if key == "rocketchat":
-        from cron_watcher.notifiers.rocketchat_notifier import RocketChatConfig, RocketChatNotifier
-        cfg = RocketChatConfig(**config)
-        return RocketChatNotifier(cfg)
+        from .rocketchat_notifier import RocketChatConfig, RocketChatNotifier
+        return RocketChatNotifier(RocketChatConfig(**config))
 
     if key == "zulip":
-        from cron_watcher.notifiers.zulip_notifier import ZulipConfig, ZulipNotifier
-        cfg = ZulipConfig(**config)
-        return ZulipNotifier(cfg)
+        from .zulip_notifier import ZulipConfig, ZulipNotifier
+        return ZulipNotifier(ZulipConfig(**config))
 
     if key == "matrix":
-        from cron_watcher.notifiers.matrix_notifier import MatrixConfig, MatrixNotifier
-        cfg = MatrixConfig(**config)
-        return MatrixNotifier(cfg)
+        from .matrix_notifier import MatrixConfig, MatrixNotifier
+        return MatrixNotifier(MatrixConfig(**config))
 
     if key == "datadog":
-        from cron_watcher.notifiers.datadog_notifier import DatadogConfig, DatadogNotifier
-        cfg = DatadogConfig(**config)
-        return DatadogNotifier(cfg)
+        from .datadog_notifier import DatadogConfig, DatadogNotifier
+        return DatadogNotifier(DatadogConfig(**config))
 
     if key == "splunk":
-        from cron_watcher.notifiers.splunk_notifier import SplunkConfig, SplunkNotifier
-        cfg = SplunkConfig(**config)
-        return SplunkNotifier(cfg)
+        from .splunk_notifier import SplunkConfig, SplunkNotifier
+        return SplunkNotifier(SplunkConfig(**config))
 
     if key == "newrelic":
-        from cron_watcher.notifiers.newrelic_notifier import NewRelicConfig, NewRelicNotifier
-        cfg = NewRelicConfig(**config)
-        return NewRelicNotifier(cfg)
+        from .newrelic_notifier import NewRelicConfig, NewRelicNotifier
+        return NewRelicNotifier(NewRelicConfig(**config))
 
     if key == "grafana":
-        from cron_watcher.notifiers.grafana_notifier import GrafanaConfig, GrafanaNotifier
-        cfg = GrafanaConfig(**config)
-        return GrafanaNotifier(cfg)
+        from .grafana_notifier import GrafanaConfig, GrafanaNotifier
+        return GrafanaNotifier(GrafanaConfig(**config))
+
+    if key == "signalwire":
+        from .signalwire_notifier import SignalWireConfig, SignalWireNotifier
+        return SignalWireNotifier(SignalWireConfig(**config))
+
+    if key == "mailgun":
+        from .mailgun_notifier import MailgunConfig, MailgunNotifier
+        return MailgunNotifier(MailgunConfig(**config))
+
+    if key == "sendgrid":
+        from .sendgrid_notifier import SendGridConfig, SendGridNotifier
+        return SendGridNotifier(SendGridConfig(**config))
+
+    if key == "hipchat":
+        from .hipchat_notifier import HipChatConfig, HipChatNotifier
+        return HipChatNotifier(HipChatConfig(**config))
 
     return None
