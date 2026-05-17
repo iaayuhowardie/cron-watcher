@@ -43,7 +43,12 @@ class PagerDutyNotifier:
             logger.info("PagerDuty alert sent: %s", summary)
             return True
         except requests.exceptions.HTTPError as exc:
-            logger.error("PagerDuty HTTP error: %s", exc)
+            logger.error(
+                "PagerDuty HTTP error: %s (status=%s, body=%s)",
+                exc,
+                exc.response.status_code if exc.response is not None else "unknown",
+                exc.response.text if exc.response is not None else "",
+            )
             return False
         except requests.exceptions.RequestException as exc:
             logger.error("PagerDuty request failed: %s", exc)
