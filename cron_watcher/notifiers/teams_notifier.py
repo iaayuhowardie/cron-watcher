@@ -36,18 +36,7 @@ class TeamsNotifier:
         Returns:
             True on success, False otherwise.
         """
-        payload = {
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "themeColor": self._config.theme_color,
-            "summary": subject,
-            "sections": [
-                {
-                    "activityTitle": subject,
-                    "activityText": body,
-                }
-            ],
-        }
+        payload = self._build_payload(subject, body)
 
         try:
             response = requests.post(
@@ -61,3 +50,26 @@ class TeamsNotifier:
         except requests.RequestException as exc:
             logger.error("Failed to send Teams notification: %s", exc)
             return False
+
+    def _build_payload(self, subject: str, body: str) -> dict:
+        """Construct the MessageCard payload for the Teams webhook.
+
+        Args:
+            subject: The card title / alert summary.
+            body:    The detailed alert message.
+
+        Returns:
+            A dictionary representing the MessageCard JSON payload.
+        """
+        return {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "themeColor": self._config.theme_color,
+            "summary": subject,
+            "sections": [
+                {
+                    "activityTitle": subject,
+                    "activityText": body,
+                }
+            ],
+        }
