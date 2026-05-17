@@ -1,123 +1,127 @@
-from typing import Any, Dict, Optional
+from typing import Optional, Any
 
 
-def get_notifier(notifier_type: str, config: Dict[str, Any]) -> Optional[Any]:
-    t = notifier_type.lower()
+def get_notifier(notifier_type: str, **kwargs) -> Optional[Any]:
+    ntype = notifier_type.lower()
 
-    if t == "email":
+    if ntype == "email":
         from cron_watcher.notifiers.email_notifier import EmailConfig, EmailNotifier
-        return EmailNotifier(EmailConfig(**config))
+        return EmailNotifier(EmailConfig(**kwargs))
 
-    if t == "slack":
+    if ntype == "slack":
         from cron_watcher.notifiers.slack_notifier import SlackConfig, SlackNotifier
-        return SlackNotifier(SlackConfig(**config))
+        return SlackNotifier(SlackConfig(**kwargs))
 
-    if t == "webhook":
+    if ntype == "webhook":
         from cron_watcher.notifiers.webhook_notifier import WebhookConfig, WebhookNotifier
-        return WebhookNotifier(WebhookConfig(**config))
+        return WebhookNotifier(WebhookConfig(**kwargs))
 
-    if t == "pagerduty":
+    if ntype == "pagerduty":
         from cron_watcher.notifiers.pagerduty_notifier import PagerDutyConfig, PagerDutyNotifier
-        return PagerDutyNotifier(PagerDutyConfig(**config))
+        return PagerDutyNotifier(PagerDutyConfig(**kwargs))
 
-    if t == "opsgenie":
+    if ntype == "opsgenie":
         from cron_watcher.notifiers.opsgenie_notifier import OpsGenieConfig, OpsGenieNotifier
-        return OpsGenieNotifier(OpsGenieConfig(**config))
+        return OpsGenieNotifier(OpsGenieConfig(**kwargs))
 
-    if t == "log":
+    if ntype == "log":
         from cron_watcher.notifiers.log_notifier import LogConfig, LogNotifier
-        return LogNotifier(LogConfig(**config))
+        return LogNotifier(LogConfig(**kwargs))
 
-    if t == "teams":
+    if ntype == "teams":
         from cron_watcher.notifiers.teams_notifier import TeamsConfig, TeamsNotifier
-        return TeamsNotifier(TeamsConfig(**config))
+        return TeamsNotifier(TeamsConfig(**kwargs))
 
-    if t == "discord":
+    if ntype == "discord":
         from cron_watcher.notifiers.discord_notifier import DiscordConfig, DiscordNotifier
-        return DiscordNotifier(DiscordConfig(**config))
+        return DiscordNotifier(DiscordConfig(**kwargs))
 
-    if t == "telegram":
+    if ntype == "telegram":
         from cron_watcher.notifiers.telegram_notifier import TelegramConfig, TelegramNotifier
-        return TelegramNotifier(TelegramConfig(**config))
+        return TelegramNotifier(TelegramConfig(**kwargs))
 
-    if t == "sms":
+    if ntype == "sms":
         from cron_watcher.notifiers.sms_notifier import SMSConfig, SMSNotifier
-        return SMSNotifier(SMSConfig(**config))
+        return SMSNotifier(SMSConfig(**kwargs))
 
-    if t == "victorops":
+    if ntype == "victorops":
         from cron_watcher.notifiers.victorops_notifier import VictorOpsConfig, VictorOpsNotifier
-        return VictorOpsNotifier(VictorOpsConfig(**config))
+        return VictorOpsNotifier(VictorOpsConfig(**kwargs))
 
-    if t == "sns":
+    if ntype == "sns":
         from cron_watcher.notifiers.sns_notifier import SNSConfig, SNSNotifier
-        return SNSNotifier(SNSConfig(**config))
+        return SNSNotifier(SNSConfig(**kwargs))
 
-    if t == "mattermost":
+    if ntype == "mattermost":
         from cron_watcher.notifiers.mattermost_notifier import MattermostConfig, MattermostNotifier
-        return MattermostNotifier(MattermostConfig(**config))
+        return MattermostNotifier(MattermostConfig(**kwargs))
 
-    if t == "gotify":
+    if ntype == "gotify":
         from cron_watcher.notifiers.gotify_notifier import GotifyConfig, GotifyNotifier
-        return GotifyNotifier(GotifyConfig(**config))
+        return GotifyNotifier(GotifyConfig(**kwargs))
 
-    if t == "pushover":
+    if ntype == "pushover":
         from cron_watcher.notifiers.pushover_notifier import PushoverConfig, PushoverNotifier
-        return PushoverNotifier(PushoverConfig(**config))
+        return PushoverNotifier(PushoverConfig(**kwargs))
 
-    if t == "ntfy":
+    if ntype == "ntfy":
         from cron_watcher.notifiers.ntfy_notifier import NtfyConfig, NtfyNotifier
-        return NtfyNotifier(NtfyConfig(**config))
+        return NtfyNotifier(NtfyConfig(**kwargs))
 
-    if t == "pushbullet":
+    if ntype == "pushbullet":
         from cron_watcher.notifiers.pushbullet_notifier import PushbulletConfig, PushbulletNotifier
-        return PushbulletNotifier(PushbulletConfig(**config))
+        return PushbulletNotifier(PushbulletConfig(**kwargs))
 
-    if t == "rocketchat":
+    if ntype == "rocketchat":
         from cron_watcher.notifiers.rocketchat_notifier import RocketChatConfig, RocketChatNotifier
-        return RocketChatNotifier(RocketChatConfig(**config))
+        return RocketChatNotifier(RocketChatConfig(**kwargs))
 
-    if t == "zulip":
+    if ntype == "zulip":
         from cron_watcher.notifiers.zulip_notifier import ZulipConfig, ZulipNotifier
-        return ZulipNotifier(ZulipConfig(**config))
+        return ZulipNotifier(ZulipConfig(**kwargs))
 
-    if t == "matrix":
+    if ntype == "matrix":
         from cron_watcher.notifiers.matrix_notifier import MatrixConfig, MatrixNotifier
-        return MatrixNotifier(MatrixConfig(**config))
+        return MatrixNotifier(MatrixConfig(**kwargs))
 
-    if t == "datadog":
+    if ntype == "datadog":
         from cron_watcher.notifiers.datadog_notifier import DatadogConfig, DatadogNotifier
-        return DatadogNotifier(DatadogConfig(**config))
+        return DatadogNotifier(DatadogConfig(**kwargs))
 
-    if t == "splunk":
+    if ntype == "splunk":
         from cron_watcher.notifiers.splunk_notifier import SplunkConfig, SplunkNotifier
-        return SplunkNotifier(SplunkConfig(**config))
+        return SplunkNotifier(SplunkConfig(**kwargs))
 
-    if t == "newrelic":
+    if ntype == "newrelic":
         from cron_watcher.notifiers.newrelic_notifier import NewRelicConfig, NewRelicNotifier
-        return NewRelicNotifier(NewRelicConfig(**config))
+        return NewRelicNotifier(NewRelicConfig(**kwargs))
 
-    if t == "grafana":
+    if ntype == "grafana":
         from cron_watcher.notifiers.grafana_notifier import GrafanaConfig, GrafanaNotifier
-        return GrafanaNotifier(GrafanaConfig(**config))
+        return GrafanaNotifier(GrafanaConfig(**kwargs))
 
-    if t == "signalwire":
+    if ntype == "signalwire":
         from cron_watcher.notifiers.signalwire_notifier import SignalWireConfig, SignalWireNotifier
-        return SignalWireNotifier(SignalWireConfig(**config))
+        return SignalWireNotifier(SignalWireConfig(**kwargs))
 
-    if t == "mailgun":
+    if ntype == "mailgun":
         from cron_watcher.notifiers.mailgun_notifier import MailgunConfig, MailgunNotifier
-        return MailgunNotifier(MailgunConfig(**config))
+        return MailgunNotifier(MailgunConfig(**kwargs))
 
-    if t == "sendgrid":
+    if ntype == "sendgrid":
         from cron_watcher.notifiers.sendgrid_notifier import SendGridConfig, SendGridNotifier
-        return SendGridNotifier(SendGridConfig(**config))
+        return SendGridNotifier(SendGridConfig(**kwargs))
 
-    if t == "hipchat":
+    if ntype == "hipchat":
         from cron_watcher.notifiers.hipchat_notifier import HipChatConfig, HipChatNotifier
-        return HipChatNotifier(HipChatConfig(**config))
+        return HipChatNotifier(HipChatConfig(**kwargs))
 
-    if t == "twilio":
+    if ntype == "twilio":
         from cron_watcher.notifiers.twilio_notifier import TwilioConfig, TwilioNotifier
-        return TwilioNotifier(TwilioConfig(**config))
+        return TwilioNotifier(TwilioConfig(**kwargs))
+
+    if ntype == "influxdb":
+        from cron_watcher.notifiers.influxdb_notifier import InfluxDBConfig, InfluxDBNotifier
+        return InfluxDBNotifier(InfluxDBConfig(**kwargs))
 
     return None
